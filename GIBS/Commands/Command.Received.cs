@@ -8,7 +8,7 @@ public partial class Command
 
         readonly ILogger _logger;
 
-        public Received(IHttpContextAccessor httpContextAccessor, ILogger<Received> logger)
+        public Received(IHttpContextAccessor httpContextAccessor, ILogger<Command.Received> logger)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
@@ -24,7 +24,7 @@ public partial class Command
             else
             {
                 var exception = new InvalidOperationException($"{nameof(Set)} before attempting to {nameof(Get)}.");
-                _logger.LogCritical(exception, message: default);
+                _logger.LogCritical(exception, "Command wasn't properly received.");
                 throw exception;
             }
         }
