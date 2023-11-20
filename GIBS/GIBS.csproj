@@ -6,7 +6,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>
+    <Title>Telegram.Bot framework extension full of powerful abstractions.</Title>
+    <Authors>GIBSON</Authors>
+    <Copyright>GIBSON</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/9ualaBanana/GIBS</RepositoryUrl>
+    <PackageTags>telegram; framework;</PackageTags>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Version>1.0.1</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoStorage" Version="5.0.0" />
