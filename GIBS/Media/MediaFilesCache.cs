@@ -98,8 +98,7 @@ public class MediaFilesCache
     }
 
     public Entry? TryRetrieveMediaFileWith(Guid index)
-        => _cache.TryGetValue(index, out Entry? cachedMediaFileEntry) ?
-        cachedMediaFileEntry : null;
+    { _cache.TryGetValue(index, out Entry? cachedMediaFileEntry); return cachedMediaFileEntry; }
 
     string CachedPath(params string[] paths)
         => RootedPath(paths.Prepend(Location).ToArray());
