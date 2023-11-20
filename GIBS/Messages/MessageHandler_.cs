@@ -7,7 +7,7 @@ namespace GIBS.Messages;
 public abstract class MessageHandler_ : UpdateHandler_
 {
     /// <summary>
-    /// Unique identifier for the chat where the <see cref="Types.Message"/> being handled came from.
+    /// Unique identifier for the chat where the <see cref="Telegram.Bot.Types.Message"/> being handled came from.
     /// </summary>
     protected ChatId ChatId => Message.Chat.Id;
 

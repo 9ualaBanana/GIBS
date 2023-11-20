@@ -1,6 +1,7 @@
 ﻿using GIBS.Bot;
 using GIBS.CallbackQueries.Serialization;
 using GIBS.Messages;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
