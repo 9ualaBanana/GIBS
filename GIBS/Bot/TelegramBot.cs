@@ -1,5 +1,7 @@
 ﻿using GIBS.Bot.MessagePagination;
 using Microsoft.Extensions.Options;
+using System.Net;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
@@ -139,7 +141,10 @@ public partial class TelegramBot : TelegramBotClient
             replyMarkup,
             cancellationToken);
 
-    public async Task<Message> EditMessageAsync_(
+    /// <returns>
+    /// Edited <see cref="Message"/> or <see langword="null"/> if its contents haven't been modified.
+    /// </returns>
+    public async Task<Message?> EditMessageAsync_(
         ChatId chatId,
         int messageId,
         string text,
@@ -147,22 +152,30 @@ public partial class TelegramBot : TelegramBotClient
         bool? disableWebPagePreview = default,
         CancellationToken cancellationToken = default)
     {
-        var editedMessage = await this.EditMessageTextAsync(
-            chatId,
-            messageId,
-            text.Sanitize(),
-            ParseMode.MarkdownV2,
-            entities: null,
-            disableWebPagePreview,
-            replyMarkup,
-            cancellationToken);
-        if (replyMarkup is not null)
-            editedMessage = await this.EditMessageReplyMarkupAsync(
+        try { return await EditMessageAsyncCore(); }
+        catch (ApiRequestException ex)
+            when ((HttpStatusCode)ex.ErrorCode is HttpStatusCode.BadRequest && ex.Message.Contains("message is not modified"))
+        { Logger.LogDebug("Message ({ID}) hasn't been modified.", messageId); return null; }
+
+        async Task<Message> EditMessageAsyncCore()
+        {
+            var editedMessage = await this.EditMessageTextAsync(
                 chatId,
                 messageId,
+                text.Sanitize(),
+                ParseMode.MarkdownV2,
+                entities: null,
+                disableWebPagePreview,
                 replyMarkup,
                 cancellationToken);
+            if (replyMarkup is not null)
+                editedMessage = await this.EditMessageReplyMarkupAsync(
+                    chatId,
+                    messageId,
+                    replyMarkup,
+                    cancellationToken);
 
-        return editedMessage;
+            return editedMessage;
+        }
     }
 }
