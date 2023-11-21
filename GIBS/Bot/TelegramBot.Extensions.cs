@@ -68,7 +68,7 @@ public static class TelegramBotExtensions
     /// If any other constituent media files have their <see cref="InputMediaBase.Caption"/> set,
     /// then they are treated as captions of individual media files and not the <paramref name="album"/>.
     /// </remarks>
-    public static IEnumerable<IAlbumInputMedia> Caption(this IEnumerable<IAlbumInputMedia> album, string caption)
+    public static IEnumerable<IAlbumInputMedia> Caption(this IAlbumInputMedia[] album, string caption)
     {
         if (album.FirstOrDefault() is InputMediaBase album_)
         {

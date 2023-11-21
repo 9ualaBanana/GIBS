@@ -85,13 +85,24 @@ public partial class TelegramBot : TelegramBotClient
             replyMarkup: replyMarkup,
             cancellationToken: cancellationToken);
 
+    /// <inheritdoc cref="SendAlbumAsync_(ChatId, IAlbumInputMedia[], string?, bool?, bool?, int?, bool?, CancellationToken)"/>
+    public async Task<Message[]> SendAlbumAsync_(
+        ChatId chatId,
+        IEnumerable<IAlbumInputMedia> media,
+        string? caption = null,
+        bool? disableNotification = default,
+        bool? protectContent = default,
+        int? replyToMessageId = null,
+        bool? allowSendingWithoutReply = default,
+        CancellationToken cancellationToken = default)
+        => await SendAlbumAsync_(chatId, media.ToArray(), caption, disableNotification, protectContent, replyToMessageId, allowSendingWithoutReply, cancellationToken);
     /// <remarks>
     /// If <paramref name="caption"/> is not <see langword="null"/>,
     /// it becomes the caption for the album and all captions of its individual media files are removed.
     /// </remarks>
     public async Task<Message[]> SendAlbumAsync_(
         ChatId chatId,
-        IEnumerable<IAlbumInputMedia> media,
+        IAlbumInputMedia[] media,
         string? caption = null,
         bool? disableNotification = default,
         bool? protectContent = default,
