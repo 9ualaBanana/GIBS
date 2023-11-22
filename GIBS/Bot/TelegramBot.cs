@@ -112,8 +112,16 @@ public partial class TelegramBot : TelegramBotClient
     {
         if (caption is not null)
             media.Caption(caption);
-            
-        return await this.SendMediaGroupAsync(chatId, media, disableNotification, protectContent, replyToMessageId, allowSendingWithoutReply, cancellationToken);
+
+        return (await SendAlbumsAsync().AggregateAsync(new List<Message>(), (albums, album) => { albums.AddRange(album); return albums; }, cancellationToken)).ToArray();
+
+
+        async IAsyncEnumerable<Message[]> SendAlbumsAsync()
+        {
+            const int AlbumSize = 10;
+            foreach (var album in media.Chunk(AlbumSize))
+                yield return await this.SendMediaGroupAsync(chatId, album, disableNotification, protectContent, replyToMessageId, allowSendingWithoutReply, cancellationToken);
+        }
     }
 
     public async Task<Message> SendMessageAsync_(
